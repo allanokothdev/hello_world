@@ -1,7 +1,7 @@
 import { $query, $update } from 'azle';
 
 // This is a global variable that is stored on the heap
-let Db = {
+type Db = {
     [key: String]: string,
 };
 

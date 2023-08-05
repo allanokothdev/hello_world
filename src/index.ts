@@ -28,6 +28,14 @@ export function get( id: string): Opt<User> {
 // Update calls take a few seconds to complete
 // This is because they persist state changes and go through consensus
 $update;
-export function set(key: string, value: string): void {
-    db[key] = value;
+export function set(id: string, username: string, age: nat32): string {
+    const user: User = {
+        id,
+        username,
+        age,
+    };
+
+    db.users[id] = user;
+
+    return id;
 }

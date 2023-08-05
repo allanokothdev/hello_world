@@ -71,5 +71,19 @@ export function randomHash(): string {
 
 $update;
 export async function tecdsa(): Promise<blob> {
-    
+    const result = await managementCanister.ecdsa_public_key({
+        canister_id: Opt.None,
+        derivation_path: [],
+        key_id: {
+            curve: {
+                secp256k1: null
+            },
+            name: 'dfx_test_key',
+        },
+    }).call();
+
+    return match(result, {
+        Ok: (ok) => ok.public_key,
+        Err: (err) => ic.trap(err),
+    });
 }

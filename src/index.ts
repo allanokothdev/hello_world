@@ -1,6 +1,9 @@
 import { Opt, $query, match, ic, $update, nat32, Record, Vec, blob } from 'azle';
 import { managementCanister } from 'azle/canisters/management';
 
+let randomness: blob = Uint8Array.from([]);
+import { sha256 } from 'js-sha256';
+
 // This is a global variable that is stored on the heap
 type Db = {
     users: {
@@ -51,7 +54,10 @@ export async function getRandomness(): Promise<blob> {
     const result = await managementCanister.raw_rand().call();
 
     return match(result, {
-        Ok: (ok) => ok,
+        Ok: (ok) => {
+            randomness = ok;
+            return ok;
+        },
         Err: (err) => ic.trap(err),
     });
 }

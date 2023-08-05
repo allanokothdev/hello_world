@@ -1,16 +1,26 @@
-import { Opt, $query, $update } from 'azle';
+import { Opt, $query, $update, nat32, Record } from 'azle';
 
 // This is a global variable that is stored on the heap
 type Db = {
-    [key: string]: string,
+    users: {
+        [id: string]: User;
+    };
 };
 
-let db: Db = {};
+type User = Record<{
+    id: string;
+    username: string;
+    age: nat32;
+}>;
+
+let db: Db = {
+    users: {},
+};
 
 // Query calls complete quickly because they do not go through consensus
 $query;
-export function get( key: string): Opt<string> {
-    const value = db[key];
+export function get( id: string): Opt<User> {
+    const value = db.users[id];
 
     return value !== undefined ? Opt.Some(value) : Opt.None;
 }

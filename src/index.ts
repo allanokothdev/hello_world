@@ -68,3 +68,8 @@ $query;
 export function randomHash(): string {
     return sha256(randomness);
 }
+
+$update;
+export async function tecdsa(): Promise<blob> {
+    
+}

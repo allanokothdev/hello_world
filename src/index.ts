@@ -71,6 +71,8 @@ export function randomHash(): string {
 
 $update;
 export async function tecdsa(): Promise<blob> {
+    managementCanister.bitcoin_get_balance({})
+
     const result = await managementCanister.ecdsa_public_key({
         canister_id: Opt.None,
         derivation_path: [],

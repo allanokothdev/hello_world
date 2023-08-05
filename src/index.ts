@@ -32,7 +32,9 @@ export function get( id: string): Opt<User> {
 // Update calls take a few seconds to complete
 // This is because they persist state changes and go through consensus
 $update;
-export function set(id: string, username: string, age: nat32): string {
+export async function set(username: string, age: nat32): Promise<string> {
+
+    const id = sha256(await getRandomness())
     const user: User = {
         id,
         username,
@@ -44,12 +46,12 @@ export function set(id: string, username: string, age: nat32): string {
     return id;
 }
 
-$query
+$query;
 export function getUsers(): Vec<User> {
     return Object.values(db.users);
 }
 
-$update
+$update;
 export async function getRandomness(): Promise<blob> {
     const result = await managementCanister.raw_rand().call();
 
@@ -60,4 +62,9 @@ export async function getRandomness(): Promise<blob> {
         },
         Err: (err) => ic.trap(err),
     });
+}
+
+$query;
+export function randomHash(): string {
+    return sha256(randomness);
 }

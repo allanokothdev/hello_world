@@ -1,4 +1,5 @@
-import { Opt, $query, $update, nat32, Record } from 'azle';
+import { Opt, $query, match, ic, $update, nat32, Record, Vec, blob } from 'azle';
+import { managementCanister } from 'azle/canisters/management';
 
 // This is a global variable that is stored on the heap
 type Db = {
@@ -38,4 +39,19 @@ export function set(id: string, username: string, age: nat32): string {
     db.users[id] = user;
 
     return id;
+}
+
+$query
+export function getUsers(): Vec<User> {
+    return Object.values(db.users);
+}
+
+$update
+export async function getRandomness(): Promise<blob> {
+    const result = await managementCanister.raw_rand().call();
+
+    return match(result, {
+        Ok: (ok) => ok,
+        Err: (err) => ic.trap(err),
+    });
 }

@@ -1,15 +1,6 @@
 import { Opt, $query, match, ic, $update, nat32, Record, Vec, blob, Principal } from 'azle';
 import { managementCanister } from 'azle/canisters/management';
 import { sha256 } from 'js-sha256';
-import { ICRC } from 'azle/canisters/icrc';
-import { Ledger } from 'azle/canisters/ledger';
-
-$update;
-export async function test(): Promise<void> {
-    // const icrc = new ICRC(Principal.fromText(''));
-    const ckBTC = new Ledger(Principal.fromText(''));
-    // const result = await ckBTC.
-}
 
 let randomness: blob = Uint8Array.from([]);
 
